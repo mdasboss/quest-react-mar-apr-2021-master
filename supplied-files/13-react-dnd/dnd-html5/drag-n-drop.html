@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <style>
+            #drop-target {
+                width: 400px;
+                height: 400px;
+                border: 1px solid black;
+                padding: 3px;
+            }
+
+            img {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="drop-target"></div>
+
+        <img src="images/donald.png" draggable="true" id="donald" />
+        <img src="images/jerry.jpg" draggable="true" id="jerry" />
+        <img src="images/mickey.jpg" draggable="true" id="mickey" />
+
+        <script>
+            var dropTarget = document.getElementById( 'drop-target' );
+
+            var images = document.querySelectorAll( 'img' );
+
+            // drag n drop is implemented by setting event handlers on both dragged element (img) and drop target
+            for( let i = 0; i < images.length; i++ ) {
+                images[i].ondragstart = function( event ) {
+                    console.log( 'drag started on ' + this.id );
+                    event.dataTransfer.setData( 'id', this.id );
+                };
+            }
+
+            dropTarget.ondragover = function( event ) {
+                console.log( 'dragover' );
+                event.preventDefault();
+            };
+
+            dropTarget.ondrop = function( event ) {
+                var id = event.dataTransfer.getData( 'id' );
+                console.log( id );
+                this.appendChild( document.getElementById( id ) );
+            };
+        </script>
+    </body>
+</html>
